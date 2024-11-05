@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block login %}
+  <a class="nav-link ms-md-2 active" href="{% url 'login' %}" aria-current="page">Login</a>
+{% endblock %}
+
+{% block content %}
+  <section class="container-fluid" style="margin-top:4.5rem">
+    <div class="d-flex justify-content-center align-items-center">
+      <form method="post" noValidate="">
+        <div class="card shadow-sm">
+          <h5 class="card-header">
+            Log in to your account
+          </h5>
+          <div class="card-body">
+            {% csrf_token %}
+            {% for field in form %}
+              <div class="d-flex align-items-center my-2">
+                <div class="form-label">
+                  {{ field.label_tag }}
+                </div>
+                <div class="ps-3 ms-auto">
+                  {{ field }}
+                </div>
+              </div>
+              {% if field.errors %}
+                <div class="alert alert-danger my-2 py-1" role="alert">
+                  {{ field.errors|striptags }}
+                </div>
+              {% endif %}
+            {% endfor %}
+            <div class="d-grid gap-2">
+              <input class="btn btn-primary" type="submit" value="Login">
+            </div>
+            <hr/>
+            <!--
+            <p class="text-center">Forgot your password? <a href="insert password_reset url here">Reset Password</a></p>
+            -->
+            <p class="text-center mb-0">Don't have an account? <a href="{% url 'register' %}">Register Now</a></p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <title>{% block title %}Sitename{% endblock %}</title>
+  </head>
+  <body>
+    <nav class="navbar fixed-top navbar-expand-md bg-body-tertiary border-bottom shadow-sm" style="height:3.5rem">
+      <div class="container-fluid mx-xl-5">
+        <button class="navbar-toggler border-0 p-0 mx-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand mx-auto" href="{% url 'index' %}">Sitename</a>
+        <div class="offcanvas offcanvas-start w-75" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+          <div class="offcanvas-header">
+            <div class="fixed-top ms-3" style="margin-top:0.9rem">
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <h5 class="offcanvas-title mx-auto" id="offcanvasNavbarLabel">Sitename</h5>
+          </div>
+          <div class="offcanvas-body">
+            <div class="navbar-nav ms-md-auto align-items-center">
+              <a class="nav-link d-md-none" href="{% url 'index' %}">Home</a>
+              <a class="nav-link" href="#">About</a>
+            </div>
+          </div>
+        </div>
+        {% if request.user.is_authenticated %}
+        <div class="dropdown align-self-center ms-md-1">
+          <button class="nav-link btn btn-outline-secondary border-0 p-1" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="height:2.87rem">
+            <img src="{{ request.user.profile.avatar.url }}" class="w-100 h-100 rounded" alt="{{ request.user.get_username }}">
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="light">
+            <li><a class="dropdown-item" href="{% url 'my_profile' %}">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <form action="{% url 'logout' %}" method="post">
+              {% csrf_token %}
+              <input class="dropdown-item text-danger" type="submit" value="Logout">
+            </form>
+          </ul>
+        </div>
+        {% else %}
+        {% block login %}
+        <a class="nav-link ms-md-2" href="{% url 'login' %}">Login</a>
+        {% endblock %}
+        {% endif %}
+      </div>
+    </nav>
+    <main class="mx-xl-5">
+      {% block content %}
+      {% endblock %}
+    </main>
+    <div class="row p-0 m-0 fixed-bottom">
+      <div class="col-md-5 offset-md-7">
+        {% if messages %}
+          {% for message in messages %}
+            {% if message.tags == "error" %}
+              <div class="alert alert-danger alert-dismissable fade show d-flex py-2" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close align-self-center ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% else %}
+              <div class="alert alert-{{ message.tags }} alert-dismissable fade show d-flex py-1" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close align-self-center ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  </body>
+  <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+</html>
