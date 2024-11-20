@@ -22,9 +22,15 @@ class Branch(models.Model):
 
 class Product(models.model):
     """An item that is sold by the store"""
+    class ProductTypes(models.TextChoices):
+        DOOR = "DOOR", "Door"
+        TILE = "TILE", "Tile"
+        WINDOW = "WINDOW", "Window"
+
     type = models.CharField(
         max_length=20,
-        help_text="The type of the Product"
+        verbose_name="The type of the Product",
+        choices=ProductTypes.choices
     )
     price = models.DecimalField(
         decimal_places=2,
