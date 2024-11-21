@@ -6,4 +6,6 @@ class BranchForm(forms.ModelForm):
     pass
 
 class ProductForm(forms.ModelForm):
-    pass
+    class Meta:
+        model = Product
+        fields = "__all__"

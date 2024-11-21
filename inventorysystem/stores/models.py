@@ -29,8 +29,8 @@ class Product(models.model):
 
     type = models.CharField(
         max_length=20,
-        verbose_name="The type of the Product",
-        choices=ProductTypes.choices
+        choices=ProductTypes.choices,
+        verbose_name="Product Type"
     )
     price = models.DecimalField(
         decimal_places=2,
