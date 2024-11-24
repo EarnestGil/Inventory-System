@@ -25,7 +25,12 @@
           </div>
           <div class="offcanvas-body">
             <div class="navbar-nav ms-md-auto align-items-center">
+              {% block home %}
               <a class="nav-link d-md-none" href="{% url 'index' %}">Home</a>
+              {% endblock %}
+              {% block store %}
+              <a class="nav-link" href="{% url 'product_list' %}">Store</a>
+              {% endblock %}
               <a class="nav-link" href="#">About</a>
             </div>
           </div>
