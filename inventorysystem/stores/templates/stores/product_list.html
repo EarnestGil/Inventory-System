@@ -4,8 +4,12 @@
 
 {% block content %}
 <section class="container-fluid" style="margin-top:4.5rem">
-  <h1>Product Catalog</h1>
-  {% if product_list.exists %}
+  <div class="d-flex flex-row">
+    <h1>Product Catalog</h1>
+    <a role="button" class="btn btn-primary ms-auto align-self-center" href="{% url 'new_product' %}">Add Product</a>
+  </div>
+  <hr class="mt-0" />
+  {% if product_list %}
   <ul>
     {% for product in product_list %}
     <li>{{ product.pk }}</li>

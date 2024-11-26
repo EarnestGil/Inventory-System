@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Branch, Product
+from .models import Branch, Product, Window
 
 class BranchForm(forms.ModelForm):
     pass

@@ -27,6 +27,13 @@ class Product(models.Model):
         TILE = "TILE", "Tile"
         WINDOW = "WINDOW", "Window"
 
+    name = models.CharField(
+        max_length=20,
+        help_text="The Product's Name"
+    )
+    description = models.TextField(
+        help_text="The Product's Description"
+    )
     type = models.CharField(
         max_length=20,
         choices=ProductTypes.choices,
@@ -52,4 +59,18 @@ class BranchProducts(models.Model):
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE
+    )
+
+class Window(models.Model):
+    """A Product that is classified as a Window"""
+    product = models.OneToOneField(
+        Product,
+        on_delete=models.CASCADE
+    )
+    name = models.CharField(
+        max_length=20,
+        help_text="The Window's Name"
+    )
+    description = models.TextField(
+        help_text="The Window's Description"
     )
