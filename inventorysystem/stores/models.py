@@ -42,16 +42,16 @@ class Product(models.Model):
     price = models.DecimalField(
         max_digits=6,
         decimal_places=2,
-        help_text="The price of the Product when sold on the Store"
+        help_text="The value of the Product when sold on the Store"
     )
     cost = models.DecimalField(
         max_digits=6,
         decimal_places=2,
-        help_text="The price of the Product when bought from the Supplier"
+        help_text="The value of the Product when bought from the Supplier"
     )
 
 class BranchProducts(models.Model):
-    """The \'Associative Entity\' used for the Branch and the Product Entity's many to many relationship"""
+    """The \'Associative Entity\' used for the Branch and Product Entity's many to many relationship"""
     branch = models.ForeignKey(
         Branch,
         on_delete=models.CASCADE

@@ -12,7 +12,7 @@
   {% if product_list %}
   <ul>
     {% for product in product_list %}
-    <li>{{ product.pk }}</li>
+    <li>{{ product.pk }} + {{ product.name }} + {{ product.description }} + {{ product.type }} + {{ product.price }}</li>
     {% endfor %}
   </ul>
   {% else %}

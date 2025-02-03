@@ -23,3 +23,7 @@ class ProductFormView(FormView):
     template_name = "stores/product_form.html"
     form_class = ProductForm
     success_url = reverse_lazy("product_list")
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
