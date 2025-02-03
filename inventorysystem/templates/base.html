@@ -1,84 +1,359 @@
-{% load static %}
+{% load static  %}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/output.css' %}" type="text/css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
 
     <title>{% block title %}Sitename{% endblock %}</title>
   </head>
-  <body>
-    <nav class="navbar fixed-top navbar-expand-md bg-body-tertiary border-bottom shadow-sm" style="height:3.5rem">
-      <div class="container-fluid mx-xl-5">
-        <button class="navbar-toggler border-0 p-0 mx-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <a class="navbar-brand mx-auto" href="{% url 'index' %}">Sitename</a>
-        <div class="offcanvas offcanvas-start w-75" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-          <div class="offcanvas-header">
-            <div class="fixed-top ms-3" style="margin-top:0.9rem">
-              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <h5 class="offcanvas-title mx-auto" id="offcanvasNavbarLabel">Sitename</h5>
-          </div>
-          <div class="offcanvas-body">
-            <div class="navbar-nav ms-md-auto align-items-center">
-              {% block home %}
-              <a class="nav-link d-md-none" href="{% url 'index' %}">Home</a>
-              {% endblock %}
-              {% block store %}
-              <a class="nav-link" href="{% url 'product_list' %}">Store</a>
-              {% endblock %}
-              <a class="nav-link" href="#">About</a>
-            </div>
-          </div>
+  <body class="relative bg-blue-100 font-custom z-0">
+    <div class="overlay hidden" id="overlayID" onmouseover="closeOverlay()"></div>
+  <div class='bg-gray-800 text-white text-xs text-right justify-end p-1'>
+    <span class="underline cursor-pointer" id="custID" onclick="checkSiteVer('customer')">Customer</span> | <span class="cursor-pointer" id="employID" onclick="checkSiteVer('employee')">Employee</span>
+  </div>
+  <!-- Nav Bar top -->
+  <nav class="relative bg-white md:ps-20 md:pe-8 pt-3 md:z-30 z-5">
+    <div class="flex items-center justify-between px-4 py-2">
+      <div class="flex items-center space-x-2 flex-grow">
+        <div class="flex-none pe-3">
+          <a href="{% url 'index' %}"><img src="{% static 'logos/logoGood.png' %}" class="max-h-14" ></a>
         </div>
-        {% if request.user.is_authenticated %}
-        <div class="dropdown align-self-center ms-md-1">
-          <button class="nav-link btn btn-outline-secondary border-0 p-1" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="height:2.87rem">
-            <img src="{{ request.user.profile.avatar.url }}" class="w-100 h-100 rounded" alt="{{ request.user.get_username }}">
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end" data-bs-theme="light">
-            <li><a class="dropdown-item" href="{% url 'my_profile' %}">Profile</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <form action="{% url 'logout' %}" method="post">
-              {% csrf_token %}
-              <input class="dropdown-item text-danger" type="submit" value="Logout">
-            </form>
-          </ul>
+          <!-- Search Bar --> 
+          <form class="flex-grow md:flex items-center relative hidden">
+            <button class="me-1 absolute left-3.5 top-[10px]"><span class="bi bi-search text-gray-800" style=" font-size: medium;"></span></button>
+            <input type="search"  class="searchbar" placeholder="Search..." />                  
+          </form>
         </div>
-        {% else %}
-        {% block login %}
-        <a class="nav-link ms-md-2" href="{% url 'login' %}">Login</a>
-        {% endblock %}
-        {% endif %}
-      </div>
-    </nav>
-    <main class="mx-xl-5">
-      {% block content %}
-      {% endblock %}
-    </main>
-    <div class="row p-0 m-0 fixed-bottom">
-      <div class="col-md-5 offset-md-7">
-        {% if messages %}
-          {% for message in messages %}
-            {% if message.tags == "error" %}
-              <div class="alert alert-danger alert-dismissable fade show d-flex py-2" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close align-self-center ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>
-            {% else %}
-              <div class="alert alert-{{ message.tags }} alert-dismissable fade show d-flex py-1" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close align-self-center ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>
-            {% endif %}
-          {% endfor %}
-        {% endif %}
+
+        <!-- Employee Icon Set -->
+         <!-- <div id="employIcons" class="md:flex md:space-x-5 ms-10 me-1 hidden">      <- original statement -->
+         
+        <div id="employIcons" class="md:space-x-5 ms-10 me-1 hidden md:flex">
+         <!--<div class="flex whitespace-nowrap space-x-4  items-center justify-center rounded-3xl  ps-5 pe-5 pt-1 pb-1 cursor-pointer text-sm hover:bg-slate-300" onclick="openSideMenu()">-->
+         <a class="flex whitespace-nowrap space-x-4  items-center justify-center rounded-3xl  ps-5 pe-5 pt-1 pb-1 cursor-pointer text-sm hover:bg-slate-300" href="{% url 'login' %}">
+          
+            <i  class="bi bi-people text-2xl font-bold " ></i><span class="flex ">Log in </span>
+            
+         <!--   
+        <a class="nav-link ms-md-2" href="{% url 'login' %}"><i class="bi bi-person-circle" style="font-size:xx-large;"></i></a>
+       -->
+    <!--       <a href=""><i class="bi bi-person-circle" style="font-size:xx-large;"></i></a> -->
+          </a>
+          {% if request.user.is_authenticated %}
+          <i class="bi bi-cart  text-[1.4rem]/[2rem] font-bold pt-1 pb-1 ps-2 pe-2 rounded-3xl hover:bg-slate-300"></i>
+          <i class="bi bi-truck text-[1.4rem]/[2rem] font-bold pt-1 pb-1 ps-2 pe-2 rounded-3xl hover:bg-slate-300"></i>
+          {% endif %}
+        </div>
+        
+    <!-- Small screen Hamburger -->
+    <div class="flex items-center justify-between sm:hidden bg-slate-600 group z-40">
+        <i class="absolute right-8 bi bi-justify-right cursor-pointer transition-all ease-in-out duration-500 transform rotate-0" style="font-size:1.7rem;" 
+        id="toggleIcon" onclick="swapIcon()"></i>
+        
+    
       </div>
     </div>
+  </nav>    
+  <!-- Navlinks for Mid-Lg Screens -->
+  <nav class="relative bg-blue-300 md:ps-20 md:pe-20 pt-2  font-medium tracking-tighter text-lg md:z-30 z-5 sh">
+    <div class="flex items-center justify-between px-4 ">
+      <div id="nav-links" class="hidden md:flex space-x-10 pb-2 ">
+        <!-- Product Dropdown -->
+        <div class="flex items-baseline group hover:text-blue-500" onmouseover="openOverlay()">
+          {% block store %}
+          <a href="{% url 'product_list' %}" class="text-gray-700 group-hover:text-blue-500 pe-1 group" id="ProductTab" >
+            <span class="dropdown-container group-hover:scale-100" id="ProductDropdown">first</span>
+            <i class="bi bi-house-door me-1"></i>Products
+          </a>
+          <i class="bi bi-chevron-down " style="font-size: 0.7rem;" id="ProdDropBut"></i>
+          {% endblock %}
+        </div>
+          <!-- Rooms Dropdown -->
+        
+          {% block login %}
+        <a href="{% url 'login' %}" class="text-gray-700 hover:text-blue-500 group" id="RoomTab">
+          <span class="dropdown-container group-hover:scale-100 " id="RoomsDropdown">
+            second
+          </span>
+          <i class="bi bi-door-open me-1"></i>Rooms</a>
+          {% endblock %}
+
+        <a href="#" class=" text-gray-700 hover:text-blue-500 group"><span class="dropdown-container group-hover:scale-100 ">second</span>Services</a>
+        <a href="#" class="text-gray-700 hover:text-blue-500  ">Contact</a>
+      </div>
+
+      <!--Small Screen searchbar -->
+      <div>
+        <form class="flex-grow flex items-center relative sm:hidden pb-2">
+          <button class="me-1 absolute left-3.5 top-[8.5px]"><span class="bi bi-search text-gray-800" style=" font-size: medium;"></span></button>
+          <input type="search" class="small-searchbar" placeholder="Search..."/>
+        </form>              
+      </div>
+    </div>
+  </nav>
+  
+  <!--Log in Screen -->
+  <div id="login-window" class="dropdown-sidebar w-96 origin-right right-0 flex items-start px-8 pt-6 pb-8 mb-4 rounded">
+      <i class="bi bi-x text-3xl font-bold absolute top-5 right-6 cursor-pointer hover:bg-slate-200 px-[0.15rem] active:bg-slate-300 rounded-full" onclick='closeSideMenu()'></i>
+      <h3 class="text-2xl tracking-wide font-semibold mt-14 mb-10">Log in to your account</h3>
+      <form class="rounded">
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm  mb-1" for="username">
+            Username
+          </label>
+
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text">
+
+        </div>
+
+        <div class="mb-6">
+          <label class="block text-gray-700 text-sm mb-1" for="password">
+            Password
+          </label>
+          <div class="relative">
+
+            <input id="passBar" class="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" >
+
+            <i id="passIcon" class="bi bi-eye absolute right-2 bottom-[1.15rem] text-lg rounded-3xl px-1 hover:bg-slate-200 active:bg-slate-300" style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);" onclick="changePasswordIcon()"></i>
+            
+          <!--<p class="text-red-500 text-xs italic">Please choose a password.</p>-->
+          </div>
+          <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800 underline" href="#">
+            Forgot Password?
+          </a>
+        </div>
+        
+        <!-- Login Button -->
+        <div class="flex items-center justify-center">
+
+          <button class="bg-customColors-400 hover:bg-customColors-300 w-full text-white font-semibold py-4 px-4 rounded-full focus:outline-none focus:shadow-outline" type="button">
+            Sign In
+          </button>
+
+        </div>
+      </form>
+
+      <!-- Divider with Text -->
+      <div class="w-full max-w-2xl my-5 ">
+        <div class="flex items-center">
+          <div class="flex-grow border-t border-gray-400"></div>
+          <span class="px-4 text-gray-700 text-sm font-medium">No account?</span>
+          <div class="flex-grow border-t border-gray-400"></div>
+        </div>
+      </div>
+
+      <div class="flex w-full items-center justify-center">
+        <button class="bg-white hover:border-gray-700 w-full text-black font-semibold py-4 px-4 rounded-full focus:outline-none focus:shadow-outline border-2 border-gray-400" type="button">
+          Create Account
+        </button>
+      </div>
+    </div>
+  </div>
+  <!--Small screen Navbar -->
+  <span class="dropdown-sidebar w-[78%] origin-left left-0 rounded-md" id="menuToggle">
+    <div class="flex flex-col justify-start bg-blue-400 mt-9">
+      <ul class="flex flex-col justify-start ms-5">
+        <li class="px-5 py-5 block" onclick="document.getElementById('smDropProduct').classList.add('block');document.getElementById('smDropProduct').classList.remove('hidden');">
+          <h1>Bleh</h1>
+          <span id="smDropProduct" class="hidden transition-all origin-top duration-500 ">s</span>
+        </li>
+        <li>asdaa</li>
+        <li>asdaa</li>
+        <li>asdaa</li>
+      </ul>
+    </div>
+  </span>
+
+
+  <main class="flex justify-center">
+    {% block content %}
+    {% endblock %}
+  </main>
+  <element ontoggle="test()" class='cursor-pointer'>
+    <p id='test' class='bg-red-700'>asdaa</p>
+    <p>test</p>
+    {% if request.user.is_authenticated %}
+    <form action="{% url 'logout' %}" method="post">
+      {% csrf_token %}
+      <input class="dropdown-item text-danger" type="submit" value="Logout">
+    </form>
+    {% endif %}
+    </element>
   </body>
+
   <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+  <script>
+    
+    let mouseoverEnabled = false;
+    function test(){
+      document.getElementById('test').classList.add('hidden');
+      console.log('hello');
+    }
+ /*   function checkSiteVer(userRole){
+
+      if (userRole === 'employee' || userRole === 'admin') {
+        document.getElementById('custID').classList.remove('underline');
+        document.getElementById('employID').classList.add('underline');
+        document.getElementById('employIcons').classList.add('md:flex');
+      }
+      else{
+        document.getElementById('custID').classList.add('underline');
+        document.getElementById('employID').classList.remove('underline');
+        document.getElementById('employIcons').classList.remove('md:flex');
+        
+      }
+    }*/
+
+
+    
+
+    function openOverlay(){
+      const overLay=document.getElementById('overlayID');
+
+        overLay.classList.remove("hidden");
+        overLay.classList.remove("z-10");  
+        mouseoverEnabled = true;
+       
+      
+    }
+    function closeOverlay(){
+      const overLay=document.getElementById('overlayID');
+      if (mouseoverEnabled) {
+        overLay.classList.add("hidden");
+        overLay.classList.add("z-10");
+        overLay.classList.remove("z-40");
+        closeSideMenu();
+      }
+    }
+    function swapIcon() {
+      const icon = document.getElementById("toggleIcon");
+
+      // Apply rotation and swap icon without setTimeout
+      icon.classList.toggle("rotate-180"); // Apply 180-degree rotation
+
+      // Swap the icon and color immediately after rotation
+      if (icon.classList.contains("bi-justify-right")) {
+        icon.classList.remove("bi-justify-right", "text-black");
+        icon.classList.add("bi-x-lg", "text-white");
+        menuToggle.classList.add("scale-100");
+        overlayID.classList.remove("hidden");
+      } else {
+        icon.classList.remove("bi-x-lg", "text-white");
+        icon.classList.add("bi-justify-right", "text-black");
+        menuToggle.classList.remove("scale-100");
+        overlayID.classList.add("hidden");
+      }
+    }
+
+    function changePasswordIcon(){
+      const passIcon=document.getElementById('passIcon');
+      const passBar=document.getElementById("passBar");
+      if(passIcon.classList.contains("bi-eye")){
+        passIcon.classList.add("bi-eye-slash");
+        passIcon.classList.remove("bi-eye");
+        passBar.type="text";
+      }
+      else{
+        passIcon.classList.remove("bi-eye-slash");
+        passIcon.classList.add("bi-eye");
+        passBar.type="password";
+      }
+    }
+    function openSideMenu(){
+      const loginWindow=document.getElementById('login-window');
+      const overLay=document.getElementById('overlayID');
+      loginWindow.classList.add("scale-100");
+      mouseoverEnabled = false;
+
+      // Enable mouseover after 1 second
+      setTimeout(() => {
+        mouseoverEnabled = true;
+      }, 1);
+
+      overLay.classList.remove("hidden");
+      overLay.classList.remove("z-10");
+      overLay.classList.add("z-40");
+
+      
+    }
+    function closeSideMenu(){
+      const loginWindow=document.getElementById('login-window');
+      const overLay=document.getElementById('overlayID');
+      loginWindow.classList.remove("scale-100");
+      overLay.classList.add("hidden");
+      overLay.classList.add("z-10");
+      overLay.classList.remove("z-40");
+
+      
+    }
+    
+    document.addEventListener("DOMContentLoaded", () => {
+      document.addEventListener("click", handleEvent);
+      document.addEventListener("mouseover", handleEvent);
+
+      
+
+
+   /*   function handleEvent(event) {
+            if (event.type === "click") {
+              /*const dropdownRooms = document.getElementById(event.target.id);
+              console.log("Event Type: Click ",event.target.id);
+              console.log("Laman ng Element: ",dropdownRooms);
+              /*
+              console.log("Nandyan ba si scale y: ",dropdownRooms.classList.contains("group"));
+              if(event.target.id==="ProductTab"){
+              }
+              console.log("Laman: ",overlayID);
+              console.log("Nandyan ba si scale y: ",overlayID.classList.contains("scale-0"));
+              
+             switch(event.target.id){
+              case "ProdDropBut": 
+              if(ProductDropdown.classList.contains("scale-100")){
+                ProductDropdown.classList.remove("scale-100");
+              }
+              else{
+                ProductDropdown.classList.add("scale-100");
+              }    
+              break;
+             /* case "toggleIcon":
+                if(toggleIcon.classList.contains("bi-justify-right")){
+                  toggleIcon.classList.add("bi-x-lg","font-bold","text-white","rotate-180");
+                  toggleIcon.classList.remove("bi-justify-right");
+                  menuToggle.classList.add("scale-100");
+                  overlayID.classList.remove("hidden");
+
+                }
+                else{
+                  toggleIcon.classList.remove("bi-x-lg");
+                  toggleIcon.classList.remove("text-white");
+                  toggleIcon.classList.remove("font-bold");
+                  toggleIcon.classList.add("bi-justify-right");
+                  menuToggle.classList.remove("scale-100");
+                  overlayID.classList.add("hidden");
+                }
+                break;
+              default:
+             }
+            } else if (event.type === "mouseover") { 
+              if(event.target.id==="ProductTab"||event.target.id==="RoomTab"||
+              event.target.id==="RoomsDropdown"||event.target.id==="ProductDropdown"){ //Makes overlay appear if any condition is true 
+                overlayID.classList.remove("hidden"); 
+                ProductDropdown.classList.remove("scale-100");
+              }
+              else{
+                overlayID.classList.add("hidden"); //If mouse hover is not on links that has dropdown, disables overlay
+                console.log(event.target.id)
+              }
+            }
+        }*/
+    });
+    
+   </script>
 </html>

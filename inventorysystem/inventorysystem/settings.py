@@ -24,8 +24,7 @@ SECRET_KEY = 'django-insecure-_a(4neenc-bp^q=&i#=l_7x6qjx)1t$a%7l_0*il=!_n0$^j4-
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -127,7 +126,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
-
 MEDIA_ROOT = BASE_DIR / 'media'
 
 MEDIA_URL = '/media/'
@@ -137,3 +135,6 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'index'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+

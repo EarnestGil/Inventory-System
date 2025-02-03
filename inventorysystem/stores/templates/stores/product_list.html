@@ -1,9 +1,14 @@
 {% extends "base.html" %}
 
-{% block store %}<a class="nav-link active" aria-current="page" href="{% url 'product_list' %}">Store</a>{% endblock %}
+{% block store %}<a href="{% url 'product_list' %}" class="text-blue-900 hover:text-blue-500 pe-1 group" id="ProductTab">
+  <span class="dropdown-container group-hover:scale-100" id="ProductDropdown">first</span>
+  <i class="bi bi-house-door me-1"></i>Products</a>
+  <button class=""><i class="bi bi-chevron-down " style="font-size: 0.7rem;" id="ProdDropBut"></i>
+  </button>
+{% endblock %}  
 
 {% block content %}
-<section class="container-fluid" style="margin-top:4.5rem">
+<section class="flex flex-col mt-12">
   <h1>Product Catalog</h1>
   {% if product_list.exists %}
   <ul>

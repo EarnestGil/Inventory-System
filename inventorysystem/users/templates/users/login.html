@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
-{% block login %}
+{% comment %} {% block login %}
   <a class="nav-link ms-md-2 active" href="{% url 'login' %}" aria-current="page">Login</a>
-{% endblock %}
+{% endblock %} {% endcomment %}
 
 {% block content %}
-  <section class="container-fluid" style="margin-top:4.5rem">
-    <div class="d-flex justify-content-center align-items-center">
+  <section class="flex bg-orange-800">
+    <div class="flex justify-center align-middle">
       <form method="post" noValidate="">
         <div class="card shadow-sm">
           <h5 class="card-header">

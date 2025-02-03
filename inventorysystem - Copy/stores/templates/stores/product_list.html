@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block store %}<a class="nav-link active" aria-current="page" href="{% url 'product_list' %}">Store</a>{% endblock %}
+
+{% block content %}
+<section class="container-fluid" style="margin-top:4.5rem">
+  <h1>Product Catalog</h1>
+  {% if product_list.exists %}
+  <ul>
+    {% for product in product_list %}
+    <li>{{ product.pk }}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>No products found...</p>
+  {% endif %}
+</section>
+{% endblock %}

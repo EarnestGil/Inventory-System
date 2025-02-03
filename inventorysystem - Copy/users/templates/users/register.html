@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <section class="container-fluid" style="margin-top:4.5rem">
+    <div class="d-flex justify-content-center align-items-center">
+      <form class="card shadow-sm" method="post" noValidate="">
+        <h5 class="card-header">
+          Create your account
+        </h5>
+        <div class="card-body">
+          {% csrf_token %}
+          {% for field in form %}
+            <div class="form-floating my-2">
+                {{ field }}
+                {{ field.label_tag }}
+            </div>
+            {% if field.errors %}
+              <div class="alert alert-danger my-2 py-1" role="alert">
+                {{ field.errors|striptags }}
+              </div>
+            {% endif %}
+          {% endfor %}
+          <div class="d-grid gap-2">
+            <input class="btn btn-primary" type="submit" value="Register">
+          </div>
+          <hr/>
+          <p class="text-center mb-0">Already have an account? <a href="{% url 'login' %}">Login Here</a></p>
+        </div>
+      </form>
+    </div>
+  </section>
+{% endblock %}
