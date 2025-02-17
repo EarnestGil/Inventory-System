@@ -9,6 +9,7 @@
 
 {% block content %}
 <section class="flex flex-col mt-12">
+  <a class="" href="{% url 'new_product' %}">Add Product</a>
   <h1>Product Catalog</h1>
   {% if product_list.exists %}
   <ul>
