@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="container-fluid" style="margin-top:4.5rem">
+  <div class="d-flex flex-row">
+    <h1>New Product</h1>
+  </div>
+  <hr class="mt-0" />
+  <form class="" method="post" noValidate="">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="my-2">
+        <label for="{{ field.auto_id }}" class="form-label">{{ field.label }}</label>
+        {{ field }}
+    </div>
+    {% if field.errors %}
+      <div class="alert alert-danger my-2 py-1" role="alert">
+        {{ field.errors|striptags }}
+      </div>
+    {% endif %}
+    {% endfor %}
+    <input class="btn btn-primary" type="submit" value="Submit">
+    <a class="btn btn-outline-danger border-0" role="button" href="{% url 'product_list' %}">Cancel</a>
+  </form>
+</section>
+{% endblock %}

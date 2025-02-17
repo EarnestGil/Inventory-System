@@ -1,5 +1,7 @@
 from django.db import models
 
+from PIL import Image
+
 # Create your models here.
 class Branch(models.Model):
     """A store thats part of a parent company"""
@@ -27,21 +29,44 @@ class Product(models.Model):
         TILE = "TILE", "Tile"
         WINDOW = "WINDOW", "Window"
 
+    name = models.CharField(
+        max_length=20,
+        help_text="The Product's Name"
+    )
+    description = models.TextField(
+        help_text="The Product's Description"
+    )
     type = models.CharField(
         max_length=20,
         choices=ProductTypes.choices,
         verbose_name="Product Type"
     )
     price = models.DecimalField(
-        max_digits=6,
+        max_digits=8,
         decimal_places=2,
-        help_text="The price of the Product when sold on the Store"
+        help_text="The value of the Product when sold on the Store"
     )
     cost = models.DecimalField(
-        max_digits=6,
+        max_digits=8,
         decimal_places=2,
-        help_text="The price of the Product when bought from the Supplier"
+        help_text="The value of the Product when bought from the Supplier"
     )
+    thumbnail = models.ImageField(
+        default = 'door_thumbnail.jpg',
+        upload_to = 'product_thumbnails/'
+    )
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        # resize the image
+        img = Image.open(self.thumbnail.path)
+        if img.height > 400 or img.width > 300:
+            output_size = (400, 300)
+            # create a thumbnail
+            img.thumbnail(output_size)
+            # overwrite the larger image
+            img.save(self.thumbnail.path)
 
 class BranchProducts(models.Model):
     """The \'Associative Entity\' used for the Branch and the Product Entity's many to many relationship"""
