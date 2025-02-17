@@ -27,6 +27,13 @@ class Product(models.Model):
         TILE = "TILE", "Tile"
         WINDOW = "WINDOW", "Window"
 
+    name = models.CharField(
+        max_length=20,
+        help_text="The Product's Name"
+    )
+    description = models.TextField(
+        help_text="The Product's Description"
+    )
     type = models.CharField(
         max_length=20,
         choices=ProductTypes.choices,
