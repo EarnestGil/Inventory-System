@@ -21,6 +21,12 @@ module.exports = {
           400:'#0077B6',
           500:'#03045E',
         },
+        cWhite:{
+          100:'#FDFDFD',
+          200:'#FAF9F6',
+          300:'#F0F8FF',
+
+        }
         
         // or add them one by one and name whatever you want
         

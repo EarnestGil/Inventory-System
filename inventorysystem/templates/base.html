@@ -15,9 +15,7 @@
   </head>
   <body class="relative bg-blue-100 font-custom z-0">
     <div class="overlay hidden" id="overlayID" onmouseover="closeOverlay()"></div>
-  <div class='bg-gray-800 text-white text-xs text-right justify-end p-1'>
-    <span class="underline cursor-pointer" id="custID" onclick="checkSiteVer('customer')">Customer</span> | <span class="cursor-pointer" id="employID" onclick="checkSiteVer('employee')">Employee</span>
-  </div>
+
   <!-- Nav Bar top -->
   <nav class="relative bg-white md:ps-20 md:pe-8 pt-3 md:z-30 z-5">
     <div class="flex items-center justify-between px-4 py-2">
@@ -37,18 +35,21 @@
          
         <div id="employIcons" class="md:space-x-5 ms-10 me-1 hidden md:flex">
          <!--<div class="flex whitespace-nowrap space-x-4  items-center justify-center rounded-3xl  ps-5 pe-5 pt-1 pb-1 cursor-pointer text-sm hover:bg-slate-300" onclick="openSideMenu()">-->
-         <a class="flex whitespace-nowrap space-x-4  items-center justify-center rounded-3xl  ps-5 pe-5 pt-1 pb-1 cursor-pointer text-sm hover:bg-slate-300" href="{% url 'login' %}">
           
-            <i  class="bi bi-people text-2xl font-bold " ></i><span class="flex ">Log in </span>
-            
-         <!--   
-        <a class="nav-link ms-md-2" href="{% url 'login' %}"><i class="bi bi-person-circle" style="font-size:xx-large;"></i></a>
-       -->
-    <!--       <a href=""><i class="bi bi-person-circle" style="font-size:xx-large;"></i></a> -->
-          </a>
           {% if request.user.is_authenticated %}
+          <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button class="flex whitespace-nowrap space-x-4  items-center justify-center rounded-3xl  ps-5 pe-5 pt-1 pb-1 cursor-pointer text-sm hover:bg-slate-300" href="{% url 'login' %}"  type='submit' value="Logout"><i  class="bi bi-people text-2xl font-bold " ></i><span class="flex ">Log out </span></button>
+          
+          </form>
+
           <i class="bi bi-cart  text-[1.4rem]/[2rem] font-bold pt-1 pb-1 ps-2 pe-2 rounded-3xl hover:bg-slate-300"></i>
           <i class="bi bi-truck text-[1.4rem]/[2rem] font-bold pt-1 pb-1 ps-2 pe-2 rounded-3xl hover:bg-slate-300"></i>
+          {% else %}
+          <a class="flex whitespace-nowrap space-x-4  items-center justify-center rounded-3xl  ps-5 pe-5 pt-1 pb-1 cursor-pointer text-sm hover:bg-slate-300" href="{% url 'login' %}">
+          
+            <i  class="bi bi-people text-2xl font-bold " ></i><span class="flex ">Log in </span>
+          </a>
           {% endif %}
         </div>
         
