@@ -12,6 +12,7 @@
   {% if product_list %}
   <ul>
     {% for product in product_list %}
+    <img src="{{ product.thumbnail.url }}" class="rounded" alt="{{ product.name }} thumbnail">
     <li>{{ product.pk }} + {{ product.name }} + {{ product.description }} + {{ product.type }} + {{ product.price }}</li>
     {% endfor %}
   </ul>
