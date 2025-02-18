@@ -7,8 +7,8 @@ from .models import Profile
 class LoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['username'].widget.attrs.update({'class': 'form-control'})
-        self.fields['password'].widget.attrs.update({'class': 'form-control'})
+        self.fields['username'].widget.attrs.update({'class': 'loginClass'})
+        self.fields['password'].widget.attrs.update({'class': 'loginClass'})
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(max_length=254)
@@ -19,10 +19,10 @@ class RegisterForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['username'].widget.attrs.update({'class': 'form-control', 'size': 50})
-        self.fields['email'].widget.attrs.update({'class': 'form-control'})
-        self.fields['password1'].widget.attrs.update({'class': 'form-control'})
-        self.fields['password2'].widget.attrs.update({'class': 'form-control'})
+        self.fields['username'].widget.attrs.update({'class': 'loginClass', 'size': 50})
+        self.fields['email'].widget.attrs.update({'class': 'loginClass'})
+        self.fields['password1'].widget.attrs.update({'class': 'loginClass'})
+        self.fields['password2'].widget.attrs.update({'class': 'loginClass'})
 
 class UserUpdateForm(forms.ModelForm):
     class Meta:

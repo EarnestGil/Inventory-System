@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x/dist/cdn.min.js" defer></script>
 
     <title>{% block title %}Sitename{% endblock %}</title>
   </head>
@@ -17,7 +17,7 @@
     <div class="overlay hidden" id="overlayID" onmouseover="closeOverlay()"></div>
 
   <!-- Nav Bar top -->
-  <nav class="relative bg-white md:ps-20 md:pe-8 pt-3 md:z-30 z-5">
+  <nav class="relative bg-white md:ps-20 md:pe-8 pt-3 md:z-30 z-[6]">
     <div class="flex items-center justify-between px-4 py-2">
       <div class="flex items-center space-x-2 flex-grow">
         <div class="flex-none pe-3">
@@ -33,14 +33,28 @@
         <!-- Employee Icon Set -->
          <!-- <div id="employIcons" class="md:flex md:space-x-5 ms-10 me-1 hidden">      <- original statement -->
          
-        <div id="employIcons" class="md:space-x-5 ms-10 me-1 hidden md:flex">
+        <div id="employIcons" class=" md:space-x-5 ms-10 me-1 hidden md:flex relative" x-data="{ open: false }">
          <!--<div class="flex whitespace-nowrap space-x-4  items-center justify-center rounded-3xl  ps-5 pe-5 pt-1 pb-1 cursor-pointer text-sm hover:bg-slate-300" onclick="openSideMenu()">-->
           
           {% if request.user.is_authenticated %}
           <form action="{% url 'logout' %}" method="post">
             {% csrf_token %}
-            <button class="flex whitespace-nowrap space-x-4  items-center justify-center rounded-3xl  ps-5 pe-5 pt-1 pb-1 cursor-pointer text-sm hover:bg-slate-300" href="{% url 'login' %}"  type='submit' value="Logout"><i  class="bi bi-people text-2xl font-bold " ></i><span class="flex ">Log out </span></button>
-          
+            <button type="button" @click="open = !open" class="flex whitespace-nowrap space-x-4  items-center justify-center rounded-3xl  ps-1 pe-5 pt-1 pb-1 cursor-pointer text-sm hover:bg-slate-300">
+              {% csrf_token %}
+      {% if user.profile %}
+      <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}'s avatar" class="h-9 w-9 rounded-full ring" accept="image/*" />
+      {% endif %}
+              <span class="flex ">Hello! {{ user.username }} </span></button>
+            
+    
+            <!-- Dropdown Content -->
+            <div x-show="open" @click.away="open = false" 
+                class="absolute z-[100] mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg">
+                <a href="{% url 'my_profile' %}" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Settings</a>
+                <button href="{% url 'login' %}"  type='submit' value="Logout" class="block ps-4 pe-[7.55rem] py-2 hover:bg-red-200 hover:text-red-900">Logout</button>
+            </div>
+            
           </form>
 
           <i class="bi bi-cart  text-[1.4rem]/[2rem] font-bold pt-1 pb-1 ps-2 pe-2 rounded-3xl hover:bg-slate-300"></i>
@@ -63,7 +77,7 @@
     </div>
   </nav>    
   <!-- Navlinks for Mid-Lg Screens -->
-  <nav class="relative bg-blue-300 md:ps-20 md:pe-20 pt-2  font-medium tracking-tighter text-lg md:z-30 z-5 sh">
+  <nav class="relative bg-blue-300 md:ps-20 md:pe-20 pt-2  font-medium tracking-tighter text-lg md:z-20 z-[5] sh">
     <div class="flex items-center justify-between px-4 ">
       <div id="nav-links" class="hidden md:flex space-x-10 pb-2 ">
         <!-- Product Dropdown -->
@@ -174,6 +188,7 @@
 
 
   <main class="flex justify-center">
+    
     {% block content %}
     {% endblock %}
   </main>
@@ -187,6 +202,7 @@
     </form>
     {% endif %}
     </element>
+    
   </body>
 
   <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
@@ -221,7 +237,7 @@
         overLay.classList.remove("hidden");
         overLay.classList.remove("z-10");  
         mouseoverEnabled = true;
-       
+        
       
     }
     function closeOverlay(){
@@ -255,18 +271,24 @@
 
     function changePasswordIcon(){
       const passIcon=document.getElementById('passIcon');
-      const passBar=document.getElementById("passBar");
+      const passBar=document.getElementById("id_password");
       if(passIcon.classList.contains("bi-eye")){
-        passIcon.classList.add("bi-eye-slash");
         passIcon.classList.remove("bi-eye");
+        console.log(passIcon.classList);
+        passIcon.classList.add("bi-eye-slash");
+        console.log(passIcon.classList.contains("bi-eye"));
+        
         passBar.type="text";
+        
       }
       else{
+        console.log(passIcon.classList);
         passIcon.classList.remove("bi-eye-slash");
         passIcon.classList.add("bi-eye");
         passBar.type="password";
       }
     }
+
     function openSideMenu(){
       const loginWindow=document.getElementById('login-window');
       const overLay=document.getElementById('overlayID');

@@ -7,8 +7,8 @@
 {% block content %}
   <section class="flex bg-cWhite-100 h-screen pt-16">
     <div class="flex align-middle border-8 h-[30rem] w-[60rem]  bg-slate-200">
-      <div class="flex w-1/2 h-full bg-slate-500 justify-center items-center">
-        <form method="post" noValidate="">
+      <div class="flex w-1/2 h-full bg-slate-100 justify-center items-center">
+        <form method="post" noValidate="" class="rounded">
 
           <h3 class="text-2xl tracking-wide font-semibold  mb-10">
             Log in to your account
@@ -17,14 +17,19 @@
               {% csrf_token %}
               {% for field in form %}
                 <div class="d-flex align-items-center my-2">
-                  <div class="form-label">
+                  <div class="block text-gray-700 text-sm  mb-1">
                     {{ field.label_tag }}
                     
                   </div>
-                  <div class="ps-3 ms-auto">
+                  <div class="relative">
+                  
                     {{ field }}
+                    {% if field.field.widget.input_type == "password" %}
+                    <i id="passIcon" class="bi bi-eye absolute right-2 top-[0.55rem] text-lg rounded-3xl px-1 hover:bg-slate-200 active:bg-slate-300" style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);" onclick="changePasswordIcon()"></i>
+                    {% endif %}
                   </div>
                 </div>
+                
                 {% if field.errors %}
                   <div class="alert text-red-700 my-2 py-1" role="alert">
                     {{ field.errors|striptags }}
@@ -40,10 +45,10 @@
               -->
               <p class="text-center mb-0">Don't have an account? <a href="{% url 'register' %}">Register Now</a></p>
             </div>
-
         </form>
       </div>
     </div>
+    
   </section>
   
 {% endblock %}

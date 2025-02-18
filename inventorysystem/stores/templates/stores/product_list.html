@@ -9,7 +9,7 @@
 
 {% block content %}
 <section class="flex flex-col mt-12">
-  <a class="" href="{% url 'new_product' %}">Add Product</a>
+  <a class="" href="{% url 'new_product' %}"><button>Add Product</button></a>
   <h1>Product Catalog</h1>
   {% if product_list.exists %}
   <ul>
@@ -21,5 +21,34 @@
   {% else %}
   <p>No products found...</p>
   {% endif %}
+  
+
+  <body class="bg-gray-100 p-10">
+    <div class="grid grid-cols-4 gap-4">
+        <!-- 20 grid items -->
+        <div class="bg-blue-500 text-white p-5 rounded-lg shadow">1</div>
+        <div class="bg-blue-500 text-white p-5 rounded-lg shadow">2</div>
+        <div class="bg-blue-500 text-white p-5 rounded-lg shadow">3</div>
+        <div class="bg-blue-500 text-white p-5 rounded-lg shadow">4</div>
+        <div class="bg-blue-500 text-white p-5 rounded-lg shadow">5</div>
+        <div class="bg-blue-500 text-white p-5 rounded-lg shadow">6</div>
+        <div class="bg-blue-500 text-white p-5 rounded-lg shadow">7</div>
+        <div class="bg-blue-500 text-white p-5 rounded-lg shadow">8</div>
+        <div class="bg-blue-500 text-white p-5 rounded-lg shadow">9</div>
+        <div class="bg-blue-500 text-white p-5 rounded-lg shadow">10</div>
+        <div class="bg-blue-500 text-white p-5 rounded-lg shadow">11</div>
+        <div class="bg-blue-500 text-white p-5 rounded-lg shadow">12</div>
+        <div class="bg-blue-500 text-white p-5 rounded-lg shadow">13</div>
+        <div class="bg-blue-500 text-white p-5 rounded-lg shadow">14</div>
+        <div class="bg-blue-500 text-white p-5 rounded-lg shadow">15</div>
+        <div class="bg-blue-500 text-white p-5 rounded-lg shadow">16</div>
+        <div class="bg-blue-500 text-white p-5 rounded-lg shadow">17</div>
+        <div class="bg-blue-500 text-white p-5 rounded-lg shadow">18</div>
+        <div class="bg-blue-500 text-white p-5 rounded-lg shadow">19</div>
+        <div class="bg-blue-500 text-white p-5 rounded-lg shadow">20</div>
+    </div>
+</body>
+
+
 </section>
 {% endblock %}
